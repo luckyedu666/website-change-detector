@@ -3,20 +3,18 @@ from bs4 import BeautifulSoup
 import difflib
 import time
 import os
+import hashlib
 
 # --- CONFIGURATION ---
-# !!! IMPORTANT: Change this URL to the website you want to track !!!
-TARGET_URL = "https://www.example.com/software-list"
+# This is now a list. Add as many URLs as you want, separated by commas.
+TARGET_URLS = [
+    "https://codec.kyiv.ua/ad0be.html",
+    "https://codec.kyiv.ua/ofx.html"
+]
 
-# !!! OPTIONAL BUT RECOMMENDED !!!
-# To avoid alerts from ads or timestamps, find the ID of the specific div
-# that contains the list you care about and put it here.
-# Example: TARGET_ELEMENT_ID = "software-updates-container"
-# If you want to track the whole page, leave this as None.
+# You can still use this if all pages have a common content area ID.
+# If not, leave it as None to check the full page text.
 TARGET_ELEMENT_ID = None
-
-# New memory file
-STATE_FILE = "previous_content.txt"
 
 # These secrets are securely fetched from GitHub's settings
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
@@ -24,14 +22,19 @@ TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
 
 # --- HELPER FUNCTIONS ---
-def get_previous_content():
-    if not os.path.exists(STATE_FILE):
+def get_safe_filename(url):
+    """Creates a safe, unique filename for a URL to use for its memory file."""
+    # We create a short hash of the URL to use as a unique ID
+    return hashlib.sha1(url.encode()).hexdigest() + ".txt"
+
+def get_previous_content(filename):
+    if not os.path.exists(filename):
         return ""
-    with open(STATE_FILE, 'r', encoding='utf-8') as f:
+    with open(filename, 'r', encoding='utf-8') as f:
         return f.read()
 
-def update_content_memory(new_content):
-    with open(STATE_FILE, 'w', encoding='utf-8') as f:
+def update_content_memory(filename, new_content):
+    with open(filename, 'w', encoding='utf-8') as f:
         f.write(new_content)
 
 def send_telegram_notification(message):
@@ -39,7 +42,6 @@ def send_telegram_notification(message):
         print("ERROR: Telegram secrets are not set."); return
     
     api_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    # We truncate the message to avoid hitting Telegram's message length limit
     max_length = 4096
     if len(message) > max_length:
         message = message[:max_length - 10] + "\n[...]"
@@ -53,10 +55,11 @@ def send_telegram_notification(message):
         print(f"❌ Failed to send Telegram notification: {e}")
 
 # --- CORE LOGIC ---
-def check_for_changes():
-    print(f"Checking for updates at: {TARGET_URL}")
+def check_url(url, memory_filename):
+    """Checks a single URL for changes against its specific memory file."""
+    print(f"\nChecking: {url}")
     try:
-        response = requests.get(TARGET_URL, headers=HEADERS)
+        response = requests.get(url, headers=HEADERS)
         response.raise_for_status()
         
         soup = BeautifulSoup(response.content, "html.parser")
@@ -64,57 +67,52 @@ def check_for_changes():
         if TARGET_ELEMENT_ID:
             content_element = soup.find(id=TARGET_ELEMENT_ID)
             if not content_element:
-                print(f"Error: Could not find element with ID '{TARGET_ELEMENT_ID}'. Checking whole page instead.")
+                print(f"  Error: Could not find element with ID '{TARGET_ELEMENT_ID}'. Checking whole page.")
                 current_content = soup.get_text()
             else:
-                print(f"Successfully found element with ID '{TARGET_ELEMENT_ID}'.")
+                print(f"  Successfully found element with ID '{TARGET_ELEMENT_ID}'.")
                 current_content = content_element.get_text()
         else:
             current_content = soup.get_text()
         
-        previous_content = get_previous_content()
+        previous_content = get_previous_content(memory_filename)
 
         if previous_content and previous_content != current_content:
             print("  >>> CHANGE DETECTED! <<<")
             
             diff = difflib.unified_diff(
-                previous_content.splitlines(),
-                current_content.splitlines(),
-                fromfile='Before',
-                tofile='After',
-                lineterm='',
+                previous_content.splitlines(), current_content.splitlines(),
+                fromfile='Before', tofile='After', lineterm=''
             )
-            
-            changes = []
-            for line in diff:
-                if line.startswith('+') and not line.startswith('+++'):
-                    changes.append(line[1:].strip()) # Get added lines
-                elif line.startswith('-') and not line.startswith('---'):
-                    changes.append(line[1:].strip()) # Get removed lines
+            changes = [line[1:].strip() for line in diff if line.startswith('+') or line.startswith('-') and not (line.startswith('---') or line.startswith('+++'))]
 
             if not changes:
-                message = f"🚨 WEBSITE UPDATED 🚨\n\nA minor change (like spacing) was detected on:\n{TARGET_URL}"
+                message = f"🚨 WEBSITE UPDATED 🚨\n\nA minor change was detected on:\n{url}"
             else:
-                # We'll show a maximum of 10 changed lines to keep the message clean
                 formatted_changes = '\n'.join(changes[:10])
-                message = f"🚨 WEBSITE UPDATED 🚨\n\nChanges detected on:\n{TARGET_URL}\n\n*Changes:*\n```\n{formatted_changes}\n```"
+                message = f"🚨 WEBSITE UPDATED 🚨\n\nChanges detected on:\n{url}\n\n*Changes:*\n```\n{formatted_changes}\n```"
 
             send_telegram_notification(message)
-            update_content_memory(current_content)
+            update_content_memory(memory_filename, current_content)
             print("  Updated content in memory file.")
             
         elif not previous_content:
-            print("  First run. Saving initial content to memory.")
-            update_content_memory(current_content)
-            send_telegram_notification(f"✅ Monitoring started for:\n{TARGET_URL}")
+            print("  First run for this URL. Saving initial content to memory.")
+            update_content_memory(memory_filename, current_content)
+            send_telegram_notification(f"✅ Now monitoring for changes on:\n{url}")
         else:
             print("  No changes detected.")
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"  An error occurred: {e}")
 
 # --- MAIN SCRIPT ---
 if __name__ == "__main__":
-    print("--- Starting Website Change Detector ---")
-    check_for_changes()
-    print("--- Detection Cycle Complete ---")
+    print("--- Starting Multi-URL Change Detector ---")
+    for url in TARGET_URLS:
+        # Create a unique memory file name for each URL
+        memory_file = get_safe_filename(url)
+        check_url(url, memory_file)
+        # Small delay between checking each website to be polite
+        time.sleep(2)
+    print("\n--- Detection Cycle Complete ---")
