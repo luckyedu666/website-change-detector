@@ -3,18 +3,20 @@ from bs4 import BeautifulSoup
 import difflib
 import time
 import os
-import hashlib
 
 # --- CONFIGURATION ---
-# This is now a list. Add as many URLs as you want, separated by commas.
 TARGET_URLS = [
     "https://codec.kyiv.ua/ad0be.html",
     "https://codec.kyiv.ua/ofx.html"
 ]
 
-# You can still use this if all pages have a common content area ID.
-# If not, leave it as None to check the full page text.
-TARGET_ELEMENT_ID = None
+# --- NEW, FOCUSED APPROACH ---
+# This is a CSS Selector. It tells the bot to only look inside the
+# main content table on the page, ignoring everything else.
+TARGET_SELECTOR = 'table[bgcolor="#E0E0E0"]'
+
+# The memory file (no change here)
+STATE_FILE = "previous_content.txt"
 
 # These secrets are securely fetched from GitHub's settings
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
@@ -22,19 +24,14 @@ TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
 
 # --- HELPER FUNCTIONS ---
-def get_safe_filename(url):
-    """Creates a safe, unique filename for a URL to use for its memory file."""
-    # We create a short hash of the URL to use as a unique ID
-    return hashlib.sha1(url.encode()).hexdigest() + ".txt"
-
-def get_previous_content(filename):
-    if not os.path.exists(filename):
+def get_previous_content():
+    if not os.path.exists(STATE_FILE):
         return ""
-    with open(filename, 'r', encoding='utf-8') as f:
+    with open(STATE_FILE, 'r', encoding='utf-8') as f:
         return f.read()
 
-def update_content_memory(filename, new_content):
-    with open(filename, 'w', encoding='utf-8') as f:
+def update_content_memory(new_content):
+    with open(STATE_FILE, 'w', encoding='utf-8') as f:
         f.write(new_content)
 
 def send_telegram_notification(message):
@@ -55,64 +52,88 @@ def send_telegram_notification(message):
         print(f"❌ Failed to send Telegram notification: {e}")
 
 # --- CORE LOGIC ---
-def check_url(url, memory_filename):
-    """Checks a single URL for changes against its specific memory file."""
-    print(f"\nChecking: {url}")
-    try:
-        response = requests.get(url, headers=HEADERS)
-        response.raise_for_status()
-        
-        soup = BeautifulSoup(response.content, "html.parser")
-        
-        if TARGET_ELEMENT_ID:
-            content_element = soup.find(id=TARGET_ELEMENT_ID)
+def check_for_changes():
+    print(f"Checking {len(TARGET_URLS)} URLs for updates...")
+    
+    # We now store content for each URL in memory to compare
+    previous_contents = get_previous_content().split('|||URL_SEPARATOR|||')
+    # Create a dictionary for easy lookup
+    previous_content_map = dict(zip(previous_contents[::2], previous_contents[1::2]))
+    
+    all_current_contents = {}
+    changes_found = False
+
+    for url in TARGET_URLS:
+        print(f"-> Checking: {url}")
+        try:
+            response = requests.get(url, headers=HEADERS)
+            response.raise_for_status()
+            
+            soup = BeautifulSoup(response.content, "html.parser")
+            
+            content_element = soup.select_one(TARGET_SELECTOR)
+            
             if not content_element:
-                print(f"  Error: Could not find element with ID '{TARGET_ELEMENT_ID}'. Checking whole page.")
-                current_content = soup.get_text()
+                print(f"  Error: Could not find target element with selector '{TARGET_SELECTOR}'.")
+                # Add a placeholder to avoid breaking the logic
+                all_current_contents[url] = "" 
+                continue
+
+            current_content = content_element.get_text()
+            all_current_contents[url] = current_content
+            
+            previous_content = previous_content_map.get(url, "")
+
+            if previous_content and previous_content != current_content:
+                print("  >>> CHANGE DETECTED! <<<")
+                changes_found = True
+                
+                diff = difflib.unified_diff(
+                    previous_content.splitlines(), current_content.splitlines(),
+                    fromfile='Before', tofile='After', lineterm=''
+                )
+                
+                changes = [line for line in diff if line.startswith(('+', '-')) and not line.startswith(('---', '+++'))]
+                # Filter out lines that only changed by adding/removing a single space at the end
+                changes = [line for line in changes if line[1:].strip() != line[1:-1].strip() or len(line) <= 2]
+
+
+                if not changes:
+                    message = f"🚨 WEBSITE UPDATED 🚨\n\nA minor (whitespace) change was detected on:\n{url}"
+                else:
+                    formatted_changes = '\n'.join(changes[:15]) # Show up to 15 lines of changes
+                    message = f"🚨 WEBSITE UPDATED 🚨\n\nChanges detected on:\n{url}\n\n*Changes:*\n```\n{formatted_changes}\n```"
+
+                send_telegram_notification(message)
+                
+            elif not previous_content:
+                print("  First run for this URL. Saving initial content.")
+                changes_found = True # Force a save on the first run
+                send_telegram_notification(f"✅ Now monitoring for changes on:\n{url}")
             else:
-                print(f"  Successfully found element with ID '{TARGET_ELEMENT_ID}'.")
-                current_content = content_element.get_text()
-        else:
-            current_content = soup.get_text()
+                print("  No changes detected.")
+
+        except Exception as e:
+            print(f"  An error occurred for {url}: {e}")
         
-        previous_content = get_previous_content(memory_filename)
+        time.sleep(1) # Small delay between requests
 
-        if previous_content and previous_content != current_content:
-            print("  >>> CHANGE DETECTED! <<<")
-            
-            diff = difflib.unified_diff(
-                previous_content.splitlines(), current_content.splitlines(),
-                fromfile='Before', tofile='After', lineterm=''
-            )
-            changes = [line[1:].strip() for line in diff if line.startswith('+') or line.startswith('-') and not (line.startswith('---') or line.startswith('+++'))]
-
-            if not changes:
-                message = f"🚨 WEBSITE UPDATED 🚨\n\nA minor change was detected on:\n{url}"
-            else:
-                formatted_changes = '\n'.join(changes[:10])
-                message = f"🚨 WEBSITE UPDATED 🚨\n\nChanges detected on:\n{url}\n\n*Changes:*\n```\n{formatted_changes}\n```"
-
-            send_telegram_notification(message)
-            update_content_memory(memory_filename, current_content)
-            print("  Updated content in memory file.")
-            
-        elif not previous_content:
-            print("  First run for this URL. Saving initial content to memory.")
-            update_content_memory(memory_filename, current_content)
-            send_telegram_notification(f"✅ Now monitoring for changes on:\n{url}")
-        else:
-            print("  No changes detected.")
-
-    except Exception as e:
-        print(f"  An error occurred: {e}")
+    # After checking all URLs, save the new state
+    if changes_found:
+        print("\nUpdating content memory file...")
+        # Rebuild the string to save from the current contents
+        # This handles removed URLs correctly
+        new_memory_string = ""
+        for url in TARGET_URLS:
+            if url in all_current_contents:
+                new_memory_string += f"{url}|||URL_SEPARATOR|||{all_current_contents[url]}"
+        update_content_memory(new_memory_string)
+        print("  Memory file updated.")
+    else:
+        print("\nNo overall changes. Memory file is up to date.")
 
 # --- MAIN SCRIPT ---
 if __name__ == "__main__":
-    print("--- Starting Multi-URL Change Detector ---")
-    for url in TARGET_URLS:
-        # Create a unique memory file name for each URL
-        memory_file = get_safe_filename(url)
-        check_url(url, memory_file)
-        # Small delay between checking each website to be polite
-        time.sleep(2)
-    print("\n--- Detection Cycle Complete ---")
+    print("--- Starting Website Change Detector ---")
+    check_for_changes()
+    print("--- Detection Cycle Complete ---")
