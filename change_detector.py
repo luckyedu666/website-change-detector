@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import difflib
 import time
 import os
-import hashlib
 
 # --- CONFIGURATION ---
 TARGET_URLS = [
@@ -11,7 +10,10 @@ TARGET_URLS = [
     "https://codec.kyiv.ua/ofx.html"
 ]
 
-# This is our new memory file
+# This CSS Selector focuses on the main content table, ignoring headers/footers.
+TARGET_SELECTOR = 'table[bgcolor="#E0E0E0"]'
+
+# The memory file (no change here)
 STATE_FILE = "previous_links.txt"
 
 # These secrets are securely fetched from GitHub's settings
@@ -21,28 +23,26 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 # --- HELPER FUNCTIONS ---
 def get_previous_links_map():
-    """Reads the old link map from our memory file."""
     if not os.path.exists(STATE_FILE):
         return {}
-    
     link_map = {}
     with open(STATE_FILE, 'r', encoding='utf-8') as f:
+        content = f.read()
+        if not content: return {}
         # Split the file content by our URL separator
-        parts = f.read().split('|||URL_SEPARATOR|||')
+        url_blocks = content.strip().split('|||URL_SEPARATOR|||')
         # Rebuild the dictionary from the flat list
-        for i in range(0, len(parts) - 1, 2):
-            url = parts[i]
-            links_text = parts[i+1]
-            link_map[url] = links_text
+        for block in url_blocks:
+            if '|||LINK_SEPARATOR|||' in block:
+                url, links_text = block.split('|||LINK_SEPARATOR|||', 1)
+                link_map[url.strip()] = links_text.strip()
     return link_map
 
 def update_links_memory(new_link_map):
-    """Saves the new link map to our memory file."""
-    # We build a single string to save, with a clear separator
-    # This also handles cases where a URL is removed from the list
     memory_string = ""
     for url, links_text in new_link_map.items():
-        memory_string += f"{url}|||URL_SEPARATOR|||{links_text}"
+        # Using a more robust separator format
+        memory_string += f"{url}|||LINK_SEPARATOR|||{links_text}|||URL_SEPARATOR|||"
         
     with open(STATE_FILE, 'w', encoding='utf-8') as f:
         f.write(memory_string)
@@ -64,7 +64,7 @@ def send_telegram_notification(message):
     except requests.exceptions.RequestException as e:
         print(f"❌ Failed to send Telegram notification: {e}")
 
-# --- CORE LOGIC BASED ON YOUR IDEA ---
+# --- CORE LOGIC with SMART NOTIFICATIONS ---
 def check_for_changes():
     print(f"Checking {len(TARGET_URLS)} URLs for link changes...")
     
@@ -79,36 +79,41 @@ def check_for_changes():
             response.raise_for_status()
             soup = BeautifulSoup(response.content, "html.parser")
             
-            # Find all clickable links (<a> tags with an href)
-            links = soup.find_all('a', href=True)
-            # Get the clean text from each link and join them into one string
-            current_links_text = "\n".join([link.get_text(strip=True) for link in links])
+            content_element = soup.select_one(TARGET_SELECTOR)
+            if not content_element:
+                print(f"  Error: Could not find target element '{TARGET_SELECTOR}'. Skipping URL.")
+                continue
+
+            links = content_element.find_all('a', href=True)
+            current_links_text = "\n".join(sorted([link.get_text(strip=True) for link in links if link.get_text(strip=True)]))
             all_current_links_map[url] = current_links_text
             
             previous_links_text = previous_links_map.get(url)
 
-            # If this is the first run for this URL
             if previous_links_text is None:
-                print("  First run for this URL. Saving initial list of links.")
+                print("  First run for this URL. Saving initial list.")
                 any_changes_found = True 
                 send_telegram_notification(f"✅ Now monitoring links on:\n{url}")
                 continue
 
-            # Compare the old list of links with the new one
             if previous_links_text != current_links_text:
                 print("  >>> CHANGE DETECTED IN LINKS! <<<")
                 any_changes_found = True
                 
                 diff = difflib.unified_diff(
                     previous_links_text.splitlines(), current_links_text.splitlines(),
-                    fromfile='Old Links', tofile='New Links', lineterm=''
+                    fromfile='Old', tofile='New', lineterm=''
                 )
                 
-                # Format a clear message showing only added/removed lines
-                changes = [line for line in diff if (line.startswith('+') or line.startswith('-')) and not (line.startswith('---') or line.startswith('+++'))]
+                added = [line[1:] for line in diff if line.startswith('+') and not line.startswith('+++')]
                 
-                formatted_changes = '\n'.join(changes[:20]) # Show max 20 changed lines
-                message = f"🚨 LINKS UPDATED 🚨\n\nChanges detected on:\n{url}\n\n*Changes:*\n```\n{formatted_changes}\n```"
+                if not added:
+                     # This handles cases where links were only removed or had minor whitespace changes
+                     message = f"🚨 LINKS UPDATED 🚨\n\nMinor change or removal detected on:\n{url}"
+                else:
+                    # Build a smart message
+                    formatted_added = '\n'.join(added)
+                    message = f"🚨 **New Software/Updates Found!** 🚨\n\nOn page:\n{url}\n\n*Added or Updated:*\n`{formatted_added}`"
 
                 send_telegram_notification(message)
             else:
@@ -117,9 +122,8 @@ def check_for_changes():
         except Exception as e:
             print(f"  An error occurred for {url}: {e}")
         
-        time.sleep(1) # Small delay between requests
+        time.sleep(1)
 
-    # After checking all URLs, save the new state if anything changed
     if any_changes_found:
         print("\nUpdating links memory file...")
         update_links_memory(all_current_links_map)
@@ -129,6 +133,6 @@ def check_for_changes():
 
 # --- MAIN SCRIPT ---
 if __name__ == "__main__":
-    print("--- Starting Link Change Detector ---")
+    print("--- Starting Smart Link Detector ---")
     check_for_changes()
     print("--- Detection Cycle Complete ---")
