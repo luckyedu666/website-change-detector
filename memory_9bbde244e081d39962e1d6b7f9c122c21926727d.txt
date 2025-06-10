@@ -1,0 +1,50 @@
+Ad0be 
+				&plug-ins for Ad0be
+Audiosoftware & plug-ins
+Avid &plug-ins for Avid
+BorisFX Continuum 2025.5 OFX v18.5 CE
+BorisFX Mocha Pro 2025 OFX v12.0.3
+BorisFX RED v5.6 CE
+BorisFX Sapphire OFX 2025.51
+BorisFX Silhouette 2025.0.0 CE
+Cinedeck Resolve cineXplugin v2.0.15
+Cinema Grade v1.1.15 CE
+DFT FilmStocks v3.0 CE
+DFT PhotoCopy v2.0v10 CE
+DFT Rays v2.1v1 CE
+DFT reFine v2.0v12 CE
+DFT v1.2.1 CE
+Dehancer Pro v7.1.3 CE
+Digital Anarchy Beauty Box OFX v5.0.10 CE
+Digital Anarchy Flicker Free OFX v2.2.3 CE
+Digital Anarchy Samurai OFX v1.2.6 CE
+FXhome Ignite Pro OFX v2.1.7331 CE
+Filmworkz DVO OFX Performance Pack v1.5
+GenArts Monsters GT OFX v7.01 CE
+GenArts Tinder OFX 2.2v4 CE
+Imagenomic Video Plugin Suite OFX build 1007 CE
+Internalreleases for V.R crew(password protected)
+MainConcept Codec Plugin v1.6.1 (Linux, macOS, Win64)
+Maxon Red Giant 2025.4.1
+Neat Video Pro RS v6.0.0 CE
+Neat Video Pro v5.6.5 OpenFX
+NewBlue TotalFX 360 build 250207 CE
+OFXplug-ins
+Pixelan Masters Bundle OFX 2015 CE
+PowerProduction Software Martini QuickShot 3 CE
+RE:Vision Effections OFX v24.10 CE
+RE:VisionFX Effections OFX 2025.1
+Red Giant Universe 2025.3.1
+Rubber Monkey CineMatch OFX v1.26 CE
+Rubber Monkey FilmConvert Nitrate v3.59 CE
+Rubber Monkey FilmConvert Pro OFX v2.20 CE
+Team.V.R@ukr.net
+Topaz Video AI Pro v7.0.2
+Trapcode Particular OFX v2.1.1 CE
+Unsortedreleases
+Video convertors &professional players
+colourlab.ai Look Designer v2.4.2 CE
+frischluft.com flAIR v1.23 & Lenscare V1.44 OFX bundle CE
+proDAD Heroglyph v4.0.289 CE
+proDAD Mercalli Sony v4.0.471 CE
+proDAD Vitascene v5.0.313 CE
