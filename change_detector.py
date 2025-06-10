@@ -10,19 +10,13 @@ TARGET_URLS = [
     "https://codec.kyiv.ua/ad0be.html",
     "https://codec.kyiv.ua/ofx.html"
 ]
-
-# This is our memory file, it will be created automatically.
-STATE_FILE_PREFIX = "memory_" 
-
-# These secrets are securely fetched from GitHub's settings
+STATE_FILE_PREFIX = "memory_"
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
 
 # --- HELPER FUNCTIONS ---
 def get_safe_filename(url):
-    """Creates a safe, unique filename for a URL to use for its memory file."""
-    # We create a short hash of the URL to use as a unique and safe filename
     return STATE_FILE_PREFIX + hashlib.sha1(url.encode()).hexdigest() + ".txt"
 
 def get_previous_links(filename):
@@ -51,8 +45,10 @@ def send_telegram_notification(message):
         print(f"✅ Successfully sent Telegram notification.")
     except requests.exceptions.RequestException as e:
         print(f"❌ Failed to send Telegram notification: {e}")
+        if e.response:
+             print(f"Error details: {e.response.text}")
 
-# --- CORE LOGIC BASED ON YOUR IDEA ---
+# --- CORE LOGIC with DETAILED DIFF REPORTING ---
 def check_for_changes(url):
     print(f"\n-> Checking: {url}")
     memory_filename = get_safe_filename(url)
@@ -61,40 +57,45 @@ def check_for_changes(url):
         response.raise_for_status()
         soup = BeautifulSoup(response.content, "html.parser")
         
-        # Find all clickable links (<a> tags with an href attribute)
-        links = soup.find_all('a', href=True)
-        # Get the clean text from each link and join them into one string, sorted for consistency
+        # We only look for links inside the main content table to be more specific
+        content_table = soup.find('table', {'bgcolor': '#E0E0E0'})
+        if not content_table:
+            print("  Error: Main content table not found. Checking all links on page.")
+            content_table = soup # Fallback to the whole page
+
+        links = content_table.find_all('a', href=True)
         current_links_text = "\n".join(sorted([link.get_text(strip=True) for link in links if link.get_text(strip=True)]))
         
         previous_links_text = get_previous_links(memory_filename)
 
-        # If this is the first run for this URL
         if not previous_links_text:
             print("  First run for this URL. Saving initial list of links.")
             update_links_memory(memory_filename, current_links_text)
             send_telegram_notification(f"✅ Now monitoring links on:\n{url}")
             return
 
-        # Compare the old list of links with the new one
         if previous_links_text != current_links_text:
             print("  >>> CHANGE DETECTED IN LINKS! <<<")
             
+            # Generate a "diff" report of the changes
             diff = difflib.unified_diff(
                 previous_links_text.splitlines(), current_links_text.splitlines(),
-                fromfile='Old Links', tofile='New Links', lineterm=''
+                fromfile='Old', tofile='New', lineterm=''
             )
             
-            added = [line[1:] for line in diff if line.startswith('+') and not line.startswith('+++')]
+            # Format the changes to be clear and readable
+            changes = [line for line in diff if (line.startswith('+') or line.startswith('-')) and not (line.startswith('---') or line.startswith('+++'))]
             
-            if not added:
-                 message = f"🚨 LINKS UPDATED 🚨\n\nMinor change or removal detected on:\n{url}"
+            if not changes:
+                 message = f"🚨 WEBSITE UPDATED 🚨\n\nA minor (whitespace) change was detected on:\n{url}"
             else:
-                formatted_added = '\n'.join(added)
-                message = f"🚨 **New Software/Updates Found!** 🚨\n\nOn page:\n{url}\n\n*Added or Updated:*\n`{formatted_added}`"
+                formatted_changes = '\n'.join(changes[:20]) # Show max 20 changed lines
+                message = f"🚨 **Change Detected on Page:** 🚨\n{url}\n\n*Here is the detailed report:*\n```\n{formatted_changes}\n```"
 
             send_telegram_notification(message)
             update_links_memory(memory_filename, current_links_text)
             print("  Updated links in memory file.")
+            
         else:
             print("  No changes detected in links.")
 
@@ -106,6 +107,5 @@ if __name__ == "__main__":
     print("--- Starting Link Change Detector ---")
     for url in TARGET_URLS:
         check_for_changes(url)
-        # Small delay between checking each website to be polite
         time.sleep(2)
     print("\n--- Detection Cycle Complete ---")
