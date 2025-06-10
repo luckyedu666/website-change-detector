@@ -4,7 +4,7 @@ import difflib
 import time
 import os
 import hashlib
-import re # Import the regular expression module for cleaning text
+import re
 
 # --- CONFIGURATION ---
 TARGET_URLS = [
@@ -12,13 +12,14 @@ TARGET_URLS = [
     "https://codec.kyiv.ua/ofx.html"
 ]
 
-STATE_FILE_PREFIX = "memory_" 
+STATE_FILE_PREFIX = "memory_"
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
 
 # --- HELPER FUNCTIONS ---
 def get_safe_filename(url):
+    """Creates a safe, unique filename for a URL to use for its memory file."""
     return STATE_FILE_PREFIX + hashlib.sha1(url.encode()).hexdigest() + ".txt"
 
 def get_previous_links(filename):
@@ -57,30 +58,25 @@ def check_for_changes(url):
         response.raise_for_status()
         soup = BeautifulSoup(response.content, "html.parser")
         
-        # Find all clickable links (<a> tags with an href attribute)
         links = soup.find_all('a', href=True)
         
-        # --- NEW NORMALIZATION LOGIC ---
-        # Create a clean, normalized list of link texts
         current_links = []
         for link in links:
             text = link.get_text(strip=True)
             if text:
-                # Replace all whitespace sequences (spaces, newlines, tabs) with a single space
                 normalized_text = re.sub(r'\s+', ' ', text).strip()
                 current_links.append(normalized_text)
         current_links = sorted(current_links)
-        # --- END OF NEW LOGIC ---
 
         previous_links = get_previous_links(memory_filename)
 
         if not previous_links:
             print("  First run for this URL. Saving initial list of links.")
-            update_links_memory(current_links)
+            # THIS IS THE LINE THAT IS NOW CORRECTED
+            update_links_memory(memory_filename, current_links)
             send_telegram_notification(f"✅ Now monitoring links on:\n{url}")
             return
 
-        # Compare the normalized lists
         if previous_links != current_links:
             print("  >>> CHANGE DETECTED IN LINKS! <<<")
             
@@ -95,7 +91,7 @@ def check_for_changes(url):
             message = f"🚨 **Links Updated!** 🚨\n\nPage:\n{url}\n\n*Report:*\n```\n{formatted_changes}\n```"
 
             send_telegram_notification(message)
-            update_links_memory(current_links)
+            update_links_memory(memory_filename, current_links)
             print("  Updated links in memory file.")
             
         else:
