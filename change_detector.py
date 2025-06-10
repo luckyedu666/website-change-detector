@@ -4,13 +4,15 @@ import difflib
 import time
 import os
 import hashlib
+import re # Import the regular expression module for cleaning text
 
 # --- CONFIGURATION ---
 TARGET_URLS = [
     "https://codec.kyiv.ua/ad0be.html",
     "https://codec.kyiv.ua/ofx.html"
 ]
-STATE_FILE_PREFIX = "memory_"
+
+STATE_FILE_PREFIX = "memory_" 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
@@ -21,13 +23,13 @@ def get_safe_filename(url):
 
 def get_previous_links(filename):
     if not os.path.exists(filename):
-        return ""
+        return []
     with open(filename, 'r', encoding='utf-8') as f:
-        return f.read()
+        return f.read().splitlines()
 
-def update_links_memory(filename, new_links_text):
+def update_links_memory(filename, new_links_list):
     with open(filename, 'w', encoding='utf-8') as f:
-        f.write(new_links_text)
+        f.write("\n".join(new_links_list))
 
 def send_telegram_notification(message):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -45,10 +47,8 @@ def send_telegram_notification(message):
         print(f"✅ Successfully sent Telegram notification.")
     except requests.exceptions.RequestException as e:
         print(f"❌ Failed to send Telegram notification: {e}")
-        if e.response:
-             print(f"Error details: {e.response.text}")
 
-# --- CORE LOGIC with DETAILED DIFF REPORTING ---
+# --- CORE LOGIC with WHITESPACE NORMALIZATION ---
 def check_for_changes(url):
     print(f"\n-> Checking: {url}")
     memory_filename = get_safe_filename(url)
@@ -57,43 +57,45 @@ def check_for_changes(url):
         response.raise_for_status()
         soup = BeautifulSoup(response.content, "html.parser")
         
-        # We only look for links inside the main content table to be more specific
-        content_table = soup.find('table', {'bgcolor': '#E0E0E0'})
-        if not content_table:
-            print("  Error: Main content table not found. Checking all links on page.")
-            content_table = soup # Fallback to the whole page
-
-        links = content_table.find_all('a', href=True)
-        current_links_text = "\n".join(sorted([link.get_text(strip=True) for link in links if link.get_text(strip=True)]))
+        # Find all clickable links (<a> tags with an href attribute)
+        links = soup.find_all('a', href=True)
         
-        previous_links_text = get_previous_links(memory_filename)
+        # --- NEW NORMALIZATION LOGIC ---
+        # Create a clean, normalized list of link texts
+        current_links = []
+        for link in links:
+            text = link.get_text(strip=True)
+            if text:
+                # Replace all whitespace sequences (spaces, newlines, tabs) with a single space
+                normalized_text = re.sub(r'\s+', ' ', text).strip()
+                current_links.append(normalized_text)
+        current_links = sorted(current_links)
+        # --- END OF NEW LOGIC ---
 
-        if not previous_links_text:
+        previous_links = get_previous_links(memory_filename)
+
+        if not previous_links:
             print("  First run for this URL. Saving initial list of links.")
-            update_links_memory(memory_filename, current_links_text)
+            update_links_memory(current_links)
             send_telegram_notification(f"✅ Now monitoring links on:\n{url}")
             return
 
-        if previous_links_text != current_links_text:
+        # Compare the normalized lists
+        if previous_links != current_links:
             print("  >>> CHANGE DETECTED IN LINKS! <<<")
             
-            # Generate a "diff" report of the changes
             diff = difflib.unified_diff(
-                previous_links_text.splitlines(), current_links_text.splitlines(),
-                fromfile='Old', tofile='New', lineterm=''
+                previous_links, current_links,
+                fromfile='Old Links', tofile='New Links', lineterm=''
             )
             
-            # Format the changes to be clear and readable
             changes = [line for line in diff if (line.startswith('+') or line.startswith('-')) and not (line.startswith('---') or line.startswith('+++'))]
             
-            if not changes:
-                 message = f"🚨 WEBSITE UPDATED 🚨\n\nA minor (whitespace) change was detected on:\n{url}"
-            else:
-                formatted_changes = '\n'.join(changes[:20]) # Show max 20 changed lines
-                message = f"🚨 **Change Detected on Page:** 🚨\n{url}\n\n*Here is the detailed report:*\n```\n{formatted_changes}\n```"
+            formatted_changes = '\n'.join(changes[:20])
+            message = f"🚨 **Links Updated!** 🚨\n\nPage:\n{url}\n\n*Report:*\n```\n{formatted_changes}\n```"
 
             send_telegram_notification(message)
-            update_links_memory(memory_filename, current_links_text)
+            update_links_memory(current_links)
             print("  Updated links in memory file.")
             
         else:
