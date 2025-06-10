@@ -40,5 +40,5 @@ jobs:
       - name: Commit and push memory files if changed
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Update page content memory files
-          file_pattern: '*.txt'
+          commit_message: Update link memory files
+          file_pattern: 'memory_*.txt' # This will now save all memory files
