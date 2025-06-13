@@ -33,7 +33,7 @@ DFT Rays v2.1v2-2 CE
 DFT reFine v2.0v13 CE
 DFT v1.2.1 CE
 DataClay Templater v2.8.4 CE
-Dehancer Film Ps/Lr v2.5.0 CE
+Dehancer Film Ps/Lr v2.7.3 CE
 Dehancer Pro Ae/Pr v7.3.1 CE
 DigiEffects Suite v3.0.2 CE
 DigiEffects VideoWall v1.0.1 CE
