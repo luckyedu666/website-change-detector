@@ -59,7 +59,7 @@ Imagenomic Portraiture v3.0.2.7 CE
 Imagenomic Video Plugin Suite AEPP build 1007 CE
 Internalreleases for V.R crew(password protected)
 Koji Color Advance v1.0.0.8 CE
-Maxon Red Giant 2025.4.1
+Maxon Red Giant 2025.5.0
 Mettle Plugins Bundle 2024.2 CE
 Minnetonka SurCode Dolby Digital Plus 5.1 Encoder v1.0.1.63 CE
 Motion Boutique Newton v3.0 CE
@@ -78,7 +78,7 @@ Pixelan SpiceMaster PRO v2.5.5
 PowerProduction Software Martini QuickShot 3 CE
 RE:VisionFX Effections Plus v24.10 CE
 Red Giant PluralEyes 2023.0.0 CE
-Red Giant Universe 2025.3.1
+Red Giant Universe 2025.3.2
 Rowbyte Buena Depth Cue v2.5.4 CE
 Rowbyte Plexus v3.1.9 CE
 Rowbyte TV Distortion Bundle 2018 CE
