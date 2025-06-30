@@ -5,7 +5,7 @@ BorisFX Continuum 2025.5 OFX v18.5 CE
 BorisFX Mocha Pro 2025.5 OFX v12.5.0 CE
 BorisFX RED v5.6 CE
 BorisFX Sapphire OFX 2025.51
-BorisFX Silhouette 2025.0.0 CE
+BorisFX Silhouette 2025.0.1 CE
 Cinedeck Resolve cineXplugin v2.0.15
 Cinema Grade v1.1.15 CE
 DFT FilmStocks v3.0 CE
