@@ -14,6 +14,7 @@ Calibrated{Q} Creators Pack CE
 Cinedeck Adobe cineXplugin v2.0.15
 Cinegy Turbocut v20.7.1.27 CE
 Cinema Grade v1.1.15 CE
+Colourlab Ai Pro v3.5.0
 Comprimato UltraPix v1.0.6 CE
 Creative Cloud - AntiCloud
 Creative Cloud - AntiCloud (with CS6 support)
