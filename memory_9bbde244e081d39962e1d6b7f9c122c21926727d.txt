@@ -41,7 +41,7 @@ Topaz Video AI Pro v7.0.3
 Trapcode Particular OFX v2.1.1 CE
 Unsortedreleases
 Video convertors &professional players
-frischluft.com flAIR v1.23 & Lenscare V1.44 OFX bundle CE
+frischluft.com flAIR v1.23 & Lenscare V1.51 OFX bundle CE
 proDAD Heroglyph v4.0.289 CE
 proDAD Mercalli Sony v4.0.471 CE
 proDAD Vitascene v5.0.313 CE
