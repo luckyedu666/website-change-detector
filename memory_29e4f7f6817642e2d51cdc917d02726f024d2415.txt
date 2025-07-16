@@ -10,6 +10,7 @@ BorisFX Optics 2025.0.1 CE
 BorisFX Sapphire 2025.51 for Photoshop
 BorisFX Sapphire AE 2025.51 CE
 BorisFX Silhouette 2025.0.2 CE
+CROSSPHERE plugins bundle 2025 CE
 Calibrated{Q} Creators Pack CE
 Cinedeck Adobe cineXplugin v2.0.15
 Cinegy Turbocut v20.7.1.27 CE
