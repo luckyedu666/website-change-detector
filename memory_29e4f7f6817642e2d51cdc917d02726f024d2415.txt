@@ -23,8 +23,7 @@ Creative Cloud 2014 - AntiCloud
 Creative Cloud 2015 - AntiCloud
 Creative Cloud 2017 - AntiCloud
 Creative Cloud 2018 - AntiCloud
-CycoreFX Path Tool 64 v1.2
-CycoreFX Sphere Utilities 64 v1.2
+CycoreFX bundle v1.3.2
 DFT EZ Mask v3.0v5.1 CE
 DFT FilmStocks v3.0.2 CE
 DFT Light v4.0v6.1 CE
