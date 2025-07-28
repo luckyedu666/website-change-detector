@@ -41,7 +41,7 @@ DigiEffects VideoWall v1.0.1 CE
 Digital Anarchy Beauty Box PS v5.0.6 CE
 Digital Anarchy Primatte PS v5.1.2 CE
 Digital Anarchy bundle 2025.5 CE
-Drastic MediaReactor WorkStation v7.0.735 CE
+Drastic MediaReactor WorkStation v7.0.974 CE
 EVEnX QRCode Generator v2.2.0
 FXhome Ignite Pro v4.0 CE
 FanDev BikiniDots v2.2.1 CE
