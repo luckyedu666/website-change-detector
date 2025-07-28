@@ -44,10 +44,8 @@ Digital Anarchy bundle 2025.5 CE
 Drastic MediaReactor WorkStation v7.0.974 CE
 EVEnX QRCode Generator v2.2.0
 FXhome Ignite Pro v4.0 CE
-FanDev BikiniDots v2.2.1 CE
 FanDev CuteDCP Pr v1.5.11 CE
-FanDev CuteDCP v1.9.13 CE
-FanDev CuteDCPTools v2.0 CE
+FanDev bundle 2025
 FilmImpact Premium Video Effects v25.2.5 CE
 Filmworkz Adobe DVO v1.0.1 CE
 Fixel Algorithms bundle v2.0.3 CE
