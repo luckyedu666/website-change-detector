@@ -66,6 +66,7 @@ Neat Video Pro AE v6.0.0 CE
 Neat Video Pro v6.0.5 CE
 NewBlue TotalFX 360 build 250207 CE
 OFXplug-ins
+Pixel Sorter Studio bundle 2025.7
 Pixelan 3D Six-Pack v1.2.5
 Pixelan CreativEase v2.0.1
 Pixelan CreativEase v2.0.4
