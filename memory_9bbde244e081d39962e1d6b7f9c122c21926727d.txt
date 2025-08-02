@@ -33,6 +33,7 @@ PowerProduction Software Martini QuickShot 3 CE
 RE:Vision Effections OFX v24.10 CE
 RE:VisionFX Effections OFX 2025.1
 Red Giant Universe 2025.3.3
+Rowbyte Fast Bokeh v2.0.9 CE
 Rubber Monkey CineMatch OFX v1.26 CE
 Rubber Monkey FilmConvert Nitrate v3.59 CE
 Rubber Monkey FilmConvert Pro OFX v2.20 CE

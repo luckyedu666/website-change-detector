@@ -79,9 +79,7 @@ PowerProduction Software Martini QuickShot 3 CE
 RE:VisionFX Effections Plus v24.10 CE
 Red Giant PluralEyes 2023.0.0 CE
 Red Giant Universe 2025.3.3
-Rowbyte Buena Depth Cue v2.5.4 CE
-Rowbyte Plexus v3.1.9 CE
-Rowbyte TV Distortion Bundle 2018 CE
+Rowbyte bundle v2025.8 CE
 Rubber Monkey CineMatch v1.24 CE
 Rubber Monkey FilmConvert Nitrate AE v3.47 CE
 Sorenson Squeeze Pro v11.1.0.9 CE
