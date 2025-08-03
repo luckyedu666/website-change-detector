@@ -110,6 +110,7 @@ Zaxwerks 3D Serpentine v2.0.2
 Zaxwerks 3D Warps v2.0.1
 Zaxwerks ProAnimator AE v8.6.0 CE
 Zaxwerks The Werks Vol.1 v2.0.0
+aescripts + aeplugins Paint & Stick v2.1.2 CE
 frischluft.com AEX bundle 2023.6 CE
 iZotope RX Loudness Control v1.0.3 for Media Encoder
 mamoworld.com Editing Essentials Bundle 26/10/2017 CE
