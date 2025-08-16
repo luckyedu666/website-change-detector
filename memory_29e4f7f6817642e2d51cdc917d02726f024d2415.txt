@@ -92,7 +92,7 @@ TeleStream: Episode Pro 7.5 CE
 The Foundry Camera Tracker 1.0v7
 The Foundry Kronos 5.0v3
 The Foundry RollingShutter 1.1v3
-Topaz Video AI Pro v7.1.1
+Topaz Video AI Pro v7.1.2
 Unsortedreleases
 Video convertors &professional players
 VideoCopilot Element 3D v2.2.2 CE
