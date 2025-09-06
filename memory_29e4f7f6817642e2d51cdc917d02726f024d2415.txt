@@ -93,6 +93,7 @@ TeleStream: Episode Pro 7.5 CE
 The Foundry Camera Tracker 1.0v7
 The Foundry Kronos 5.0v3
 The Foundry RollingShutter 1.1v3
+Time in Pixels Nobe OmniScope Pro v1.11.12
 Topaz Video AI Pro v7.1.4
 Unsortedreleases
 Video convertors &professional players
