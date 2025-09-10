@@ -58,7 +58,7 @@ Imagenomic Portraiture v3.0.2.7 CE
 Imagenomic Video Plugin Suite AEPP build 1007 CE
 Internalreleases for V.R crew(password protected)
 Koji Color Advance v1.0.0.8 CE
-Maxon Red Giant 2025.6.0
+Maxon Red Giant 2026.0.0
 Mettle Plugins Bundle 2024.2 CE
 Minnetonka SurCode Dolby Digital Plus 5.1 Encoder v1.0.1.63 CE
 Motion Boutique Newton v3.0 CE
@@ -79,7 +79,7 @@ PowerProduction Software Martini QuickShot 3 CE
 RE:VisionFX Color Genius Plus v25.04 CE
 RE:VisionFX Effections Plus v25.08 CE
 Red Giant PluralEyes 2023.0.0 CE
-Red Giant Universe 2025.3.3
+Red Giant Universe 2026.0.0
 Rowbyte bundle v2025.8 CE
 Rubber Monkey CineMatch v1.24 CE
 Rubber Monkey FilmConvert Nitrate AE v3.47 CE
