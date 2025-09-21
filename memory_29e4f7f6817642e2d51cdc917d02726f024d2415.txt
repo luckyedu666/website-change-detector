@@ -95,6 +95,8 @@ The Foundry Camera Tracker 1.0v7
 The Foundry Kronos 5.0v3
 The Foundry RollingShutter 1.1v3
 Time in Pixels Nobe OmniScope Pro v1.11.13
+Topaz Gigepixel Pro v1.0.0
+Topaz Photo Pro v1.0.0
 Topaz Video AI Pro v7.1.4
 Unsortedreleases
 Video convertors &professional players
