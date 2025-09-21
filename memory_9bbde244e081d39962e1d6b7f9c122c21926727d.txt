@@ -9,6 +9,7 @@ BorisFX Silhouette 2025.0.2 CE
 Cinedeck Resolve cineXplugin v2.0.15
 Cinema Grade v1.1.15 CE
 Colourlab Ai Pro v3.5.0
+Cullen Kelly Color Contour v2.1.6
 DFT FilmStocks v3.0 CE
 DFT PhotoCopy v2.0v10 CE
 DFT Rays v2.1v1 CE
