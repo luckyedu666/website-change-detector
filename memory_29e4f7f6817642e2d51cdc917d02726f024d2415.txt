@@ -5,7 +5,7 @@ Avid &plug-ins for Avid
 BAO plugins bundle 2025.5 CE
 Boris RED v5.6 CE
 BorisFX Continuum 2025.5 AEX v18.5.2 CE
-BorisFX Mocha Pro 2025.5 AE v12.5.2 CE
+BorisFX Mocha Pro 2025.5 AE v12.5.3 CE
 BorisFX Optics 2025.0.2 CE
 BorisFX Sapphire 2025.52 for Photoshop
 BorisFX Sapphire AE 2025.52 CE

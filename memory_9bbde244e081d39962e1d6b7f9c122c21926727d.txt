@@ -2,7 +2,7 @@ Ad0be &plug-ins for Ad0be
 Audiosoftware & plug-ins
 Avid &plug-ins for Avid
 BorisFX Continuum 2025.5 OFX v18.5.2 CE
-BorisFX Mocha Pro 2025.5 OFX v12.5.2 CE
+BorisFX Mocha Pro 2025.5 OFX v12.5.3 CE
 BorisFX RED v5.6 CE
 BorisFX Sapphire OFX 2025.52
 BorisFX Silhouette 2025.5 CE
