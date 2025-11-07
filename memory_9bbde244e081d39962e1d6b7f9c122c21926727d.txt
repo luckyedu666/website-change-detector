@@ -25,7 +25,7 @@ GenArts Tinder OFX 2.2v4 CE
 Imagenomic Video Plugin Suite OFX build 1007 CE
 Internalreleases for V.R crew(password protected)
 MainConcept Codec Plugin v1.6.1 (Linux, macOS, Win64)
-Maxon Red Giant 2026.0.0
+Maxon Red Giant 2026.1.0
 Neat Video Pro RS v6.0.0 CE
 Neat Video Pro v5.6.5 OpenFX
 NewBlue TotalFX 360 build 250207 CE
@@ -35,7 +35,7 @@ PowerProduction Software Martini QuickShot 3 CE
 RE:VisionFX Color Genius Plus v25.04 CE
 RE:VisionFX Effections OFX 2025.1
 RE:VisionFX Effections Plus OFX v25.08 CE
-Red Giant Universe 2026.0.0
+Red Giant Universe 2026.0.1
 Rowbyte Fast Bokeh v2.0.9 CE
 Rubber Monkey CineMatch OFX v1.26 CE
 Rubber Monkey FilmConvert Nitrate v3.59 CE
