@@ -9,7 +9,7 @@ BorisFX Mocha Pro 2025.5 AE v12.5.3 CE
 BorisFX Optics 2025.0.2 CE
 BorisFX Sapphire 2026 for Photoshop
 BorisFX Sapphire AE 2026 CE
-BorisFX Silhouette 2025.5 CE
+BorisFX Silhouette 2025.5.1 CE
 BorisFX SynthEyes 2025.5
 CROSSPHERE plugins bundle 2025 CE
 Calibrated{Q} Creators Pack CE
