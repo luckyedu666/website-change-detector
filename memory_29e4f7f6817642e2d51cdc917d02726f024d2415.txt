@@ -59,7 +59,7 @@ Imagenomic Portraiture v3.0.2.7 CE
 Imagenomic Video Plugin Suite AEPP build 1007 CE
 Internalreleases for V.R crew(password protected)
 Koji Color Advance v1.0.0.8 CE
-Maxon Red Giant 2026.2.1
+Maxon Red Giant 2026.3.0
 Mettle Plugins Bundle 2024.2 CE
 Minnetonka SurCode Dolby Digital Plus 5.1 Encoder v1.0.1.63 CE
 Motion Boutique Newton v3.0 CE

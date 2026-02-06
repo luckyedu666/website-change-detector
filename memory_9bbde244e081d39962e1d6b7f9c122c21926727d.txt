@@ -25,7 +25,7 @@ GenArts Tinder OFX 2.2v4 CE
 Imagenomic Video Plugin Suite OFX build 1007 CE
 Internalreleases for V.R crew(password protected)
 MainConcept Codec Plugin v1.6.1 (Linux, macOS, Win64)
-Maxon Red Giant 2026.2.1
+Maxon Red Giant 2026.3.0
 Neat Video Pro RS v6.0.0 CE
 Neat Video Pro v5.6.5 OpenFX
 NewBlue TotalFX 360 build 250207 CE
