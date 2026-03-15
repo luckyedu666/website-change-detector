@@ -30,7 +30,7 @@ Neat Video Pro RS v6.0.0 CE
 Neat Video Pro v5.6.5 OpenFX
 NewBlue TotalFX 360 build 250207 CE
 OFXplug-ins
-PFA ColorSuite v6.9.0 CE
+PFA ColorSuite v7.2.6 CE
 Pixelan Masters Bundle OFX 2015 CE
 PowerProduction Software Martini QuickShot 3 CE
 RE:VisionFX ARRI Film Lab v1.0.2 CE
@@ -44,7 +44,7 @@ Rubber Monkey CineMatch OFX v1.26 CE
 Rubber Monkey FilmConvert Nitrate v3.59 CE
 Rubber Monkey FilmConvert Pro OFX v2.20 CE
 Team.V.R@ukr.net
-Time in Pixels Nobe OmniScope Pro v1.11.13
+Time in Pixels Nobe OmniScope Pro v1.11.34 CE
 Topaz Video Enterprise v1.2.2
 Trapcode Particular OFX v2.1.1 CE
 Unsortedreleases
