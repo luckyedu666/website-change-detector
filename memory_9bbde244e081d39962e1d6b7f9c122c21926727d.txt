@@ -28,6 +28,7 @@ MainConcept Codec Plugin v1.7.2 CE
 Maxon Red Giant 2026.4.1
 Neat Video Pro RS v6.0.0 CE
 Neat Video Pro v5.6.5 OpenFX
+Neat Video Pro v6.1.3 plug-in for Resolve
 NewBlue TotalFX 360 build 250207 CE
 OFXplug-ins
 PFA ColorSuite v7.2.6 CE
