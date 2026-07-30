@@ -5,7 +5,7 @@ Autocroma bundle 2025.7 CE
 Avid &plug-ins for Avid
 BAO plugins bundle 2025.5 CE
 Boris RED v5.6 CE
-BorisFX Continuum 2026.5 AEX v19.5.4 CE
+BorisFX Continuum 2026.5 AEX v19.5.5 CE
 BorisFX Mocha Pro AE 2026.5.0 CE
 BorisFX Optics 2026.5.1 CE
 BorisFX Sapphire 2026.51 for Photoshop
