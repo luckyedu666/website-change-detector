@@ -6,6 +6,7 @@ BorisFX Mocha Pro 2026.5.0 OFX
 BorisFX RED v5.6 CE
 BorisFX Sapphire OFX 2026.51
 BorisFX Silhouette 2026.0.3 CE
+CineDream v1.1.11 CE
 Cinedeck cineXtools v2.0.25
 Cinema Grade v1.1.15 CE
 Colourlab Ai Pro v3.5.0
