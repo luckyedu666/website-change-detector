@@ -1,5 +1,4 @@
 Adobe &plug-ins for Adobe
-Adobe Premiere 2026.3.0
 Audiosoftware & plug-ins
 Autocroma bundle 2025.7 CE
 Avid &plug-ins for Avid
@@ -70,6 +69,7 @@ Neat Video Pro v6.0.5 CE
 NewBlue TotalFX 360 build 250207 CE
 OCTOPUS RAW Studio v1.0.2
 OFXplug-ins
+Photoshop 2026 v27.9.1
 Pixel Sorter Studio bundle 2025.7
 Pixelan 3D Six-Pack v1.2.5
 Pixelan CreativEase v2.0.1
@@ -80,6 +80,7 @@ Pixelan Masters Bundle 2015 CE
 Pixelan SpiceMaster PRO v2.5.4
 Pixelan SpiceMaster PRO v2.5.5
 PowerProduction Software Martini QuickShot 3 CE
+Premiere 2026.3.2
 ProductionCrate LaForge Suite v1.5.07 CE
 RE:VisionFX Color Genius Plus v25.11 CE
 RE:VisionFX Effections Plus v25.08 CE
