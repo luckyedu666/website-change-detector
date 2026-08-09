@@ -32,7 +32,7 @@ Neat Video Pro v5.6.5 OpenFX
 Neat Video Pro v6.1.3 plug-in for Resolve
 NewBlue TotalFX 360 build 250207 CE
 OFXplug-ins
-PFA ColorSuite v7.2.6 CE
+PFA ColorSuite v13.3 CE
 Pixelan Masters Bundle OFX 2015 CE
 PowerProduction Software Martini QuickShot 3 CE
 RE:VisionFX ARRI Film Lab v1.0.2 CE
