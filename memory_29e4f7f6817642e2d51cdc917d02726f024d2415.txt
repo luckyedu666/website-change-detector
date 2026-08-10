@@ -83,7 +83,7 @@ PowerProduction Software Martini QuickShot 3 CE
 Premiere 2026.3.2
 ProductionCrate LaForge Suite v1.5.07 CE
 RE:VisionFX Color Genius Plus v25.11 CE
-RE:VisionFX Effections Plus v25.08 CE
+RE:VisionFX Effections Plus v26.08 CE
 Red Giant PluralEyes 2023.0.0 CE
 Red Giant Universe 2026.0.1
 Rowbyte bundle v2025.8 CE
