@@ -4,7 +4,7 @@ Avid &plug-ins for Avid
 BorisFX Continuum 2026.5 OFX v19.5.5 CE
 BorisFX Mocha Pro 2026.5.0 OFX
 BorisFX RED v5.6 CE
-BorisFX Sapphire OFX 2026.51
+BorisFX Sapphire OFX 2026.52
 BorisFX Silhouette 2026.0.3 CE
 CineDream v1.1.11 CE
 Cinedeck cineXtools v2.0.25
