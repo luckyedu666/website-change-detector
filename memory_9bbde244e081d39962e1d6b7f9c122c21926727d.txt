@@ -27,6 +27,7 @@ Imagenomic Video Plugin Suite OFX build 1007 CE
 Internalreleases for V.R crew(password protected)
 MainConcept Codec Plugin v1.7.3 CE
 Maxon Red Giant 2026.5.1
+MrAlexTech MagicGrade v1.2.1 CE
 Neat Video Pro RS v6.1.3 CE
 Neat Video Pro v5.6.5 OpenFX
 Neat Video Pro v6.1.3 plug-in for Resolve
