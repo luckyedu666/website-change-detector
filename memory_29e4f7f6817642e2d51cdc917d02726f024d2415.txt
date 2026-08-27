@@ -13,7 +13,7 @@ BorisFX Silhouette 2026.0.4 CE
 BorisFX SynthEyes Pro 2026.0.3
 CROSSPHERE plugins bundle 2025 CE
 Calibrated{Q} Creators Pack CE
-CineDream v1.1.11 CE
+CineDream v1.1.12 CE
 Cinedeck cineXtools v2.0.25
 Cinegy Turbocut v20.7.1.27 CE
 Cinema Grade v1.1.15 CE
