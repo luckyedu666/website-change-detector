@@ -9,6 +9,7 @@ BorisFX Silhouette 2026.0.4 CE
 CineDream v1.1.14 CE
 Cinedeck cineXtools v2.0.25
 Cinema Grade v1.1.15 CE
+Colormetric Labs Helios Grade v1.10.0
 Colourlab Ai Pro v3.5.0
 Cullen Kelly Color Contour v2.1.6
 Cullen Kelly Color Genesis Pro v1.6.2
