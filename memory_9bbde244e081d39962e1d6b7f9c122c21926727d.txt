@@ -50,6 +50,7 @@ Rubber Monkey FilmConvert Nitrate v3.59 CE
 Rubber Monkey FilmConvert Pro OFX v2.20 CE
 Team.V.R@ukr.net
 Time in Pixels Nobe OmniScope Pro v1.11.52 CE
+ToneLab Chroma Pro
 Topaz Video Pro v1.7.2
 Trapcode Particular OFX v2.1.1 CE
 Unsortedreleases
