@@ -25,6 +25,7 @@ FXhome Ignite Pro OFX v2.1.7331 CE
 Filmworkz DVO OFX Performance Pack v1.6
 GenArts Monsters GT OFX v7.01 CE
 GenArts Tinder OFX 2.2v4 CE
+HueCraft HueCrafter Film Engine v2.0.0 CE
 Imagenomic Video Plugin Suite OFX build 1007 CE
 Internalreleases for V.R crew(password protected)
 MainConcept Codec Plugin v1.7.3 CE
