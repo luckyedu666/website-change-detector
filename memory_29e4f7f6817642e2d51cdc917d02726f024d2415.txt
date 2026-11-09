@@ -1,5 +1,5 @@
 Adobe &plug-ins for Adobe
-After Effects 2026.5.0
+After Effects 2027.0.0
 Audiosoftware & plug-ins
 Audition 2026.5.0
 Autocroma bundle 2026.8 CE
