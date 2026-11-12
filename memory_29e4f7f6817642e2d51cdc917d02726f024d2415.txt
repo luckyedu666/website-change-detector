@@ -9,8 +9,8 @@ Boris RED v5.6 CE
 BorisFX Continuum 2027 AEX v20.0 CE
 BorisFX Mocha Pro AE 2026.5.1 CE
 BorisFX Optics 2026.5.2 CE
-BorisFX Sapphire 2026.52 for Photoshop
-BorisFX Sapphire AE 2026.52 CE
+BorisFX Sapphire 2027 for Photoshop
+BorisFX Sapphire AE 2027 CE
 BorisFX Silhouette 2026.0.4 CE
 BorisFX SynthEyes Pro 2026.0.3
 CROSSPHERE plugins bundle 2025 CE
